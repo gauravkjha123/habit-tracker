@@ -1,18 +1,15 @@
-import 'dotenv/config';
+import  config  from './config/config.js';
+import db from './config/db.js';
 import express from 'express';
 import bodyParser from 'body-parser';
-import db from './config/db.js';
 import cors from 'cors';
-
+import joi from 'joi'
+console.log(joi.assert(4, joi.number()));
 
 const app = express();
 
-// Define the port, use the development port if available, otherwise use 3000
-const port =
-  process.env.NODE_ENV === 'development'
-    ? process.env.HABIT_TRACKER_DEV_PORT
-    : process.env.HABIT_TRACKER_PROD_PORT || 3000;
-
+// Define the port,
+let port =process.env.SERVER_PORT;
 
 // Enable CORS middleware to allow cross-origin requests
 app.use(cors());
