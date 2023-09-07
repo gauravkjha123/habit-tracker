@@ -30,4 +30,4 @@ const authValidation = (data) => {
   }
 };
 
-export default loginValidation;
+export default authValidation;

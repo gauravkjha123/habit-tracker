@@ -3,8 +3,6 @@ import db from './config/db.js';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import joi from 'joi'
-console.log(joi.assert(4, joi.number()));
 
 const app = express();
 
@@ -15,8 +13,19 @@ let port =process.env.SERVER_PORT;
 app.use(cors());
 
 // Enable body parsing middleware for JSON and URL-encoded data
-app.use(bodyParser.urlencoded({ extended: true, parameterLimit: 50 }));
+app.use(bodyParser.urlencoded({ extended: true, limit: 50 }));
 app.use(bodyParser.json());
+
+app.use(session({  
+  name: process.env.SESSION_NAME,
+  secret:  process.env.SESSION_SECRET  ,  
+  resave: false,
+  saveUninitialized: false,
+  cookie: { 
+    secure: false,
+    maxAge: process.env.SESSION_EXPIRE_TIME 
+  } 
+}));
 
 //Error handling middleware
 app.use((err, req, res, next) => {
