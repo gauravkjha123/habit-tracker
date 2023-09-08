@@ -34,7 +34,7 @@ const userValidation = (data) => {
           "string.email": "Please enter a valid email address",
           "any.required": "Email is required. Please provide an email address",
         }),
-    });
+    }).unknown(false);
 
     return schema.validate(data);
   } catch (error) {
