@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import {status} from '../enum/status.enum.js'
 
 const habitSchema = mongoose.Schema({
   name: {
@@ -9,6 +10,19 @@ const habitSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+  habitDetails:[
+    {
+      date:{
+        type:Date,
+        require:true
+      },
+      status:{
+        type: Number,
+        enum: Object.values(status), 
+        default: status.None,
+      }
+    }
+  ]
 }, { timestamps: true });
 
 const Habit = mongoose.model('Habit', habitSchema);

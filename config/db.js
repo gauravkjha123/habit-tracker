@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
-import logger from '../utils/customLogger.js'
+import logger from '../lib/logger/logger.js'
+import  { env } from '../env.js'
 
 // MongoDB connection URL
-const dbUrl = process.env.MONGO_URL;
+const dbUrl = env.db.mongoUrl;
 
 // Create a function to connect to the database
 const connectToDatabase = async () => {
@@ -11,7 +12,6 @@ const connectToDatabase = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    logger.log('Connected to the database');
   } catch (error) {
     logger.error('Error connecting to the database:', error);
     process.exit(1); // Exit the application on database connection error

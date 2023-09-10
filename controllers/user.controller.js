@@ -1,14 +1,15 @@
-import authValidation from "../validations/authValidation.js";
-import userValidation from "../validations/userValidation.js";
-import logger from "../utils/customLogger.js";
+import authValidation from "../validations/userValidations/auth.validation.js";
+import userValidation from "../validations/userValidations/user.validation.js";
+import logger from "../lib/logger/logger.js";
 import User from "../models/user.js";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import  { env } from '../env.js'
 import {
-  UserNotFound,
-  invalidCredentials,
-  UserAlreadyExist,
-  PasswordNotMatch,
-} from "../errors/userNotFound.error.js";
+  UserNotFoundError,
+  invalidCredentialsError,
+  UserAlreadyExistError,
+  PasswordNotMatchError,
+} from "../errors/user.error.js";
 
 export const signUp = (req, res) => {
   return res.render("_singUp");
@@ -30,15 +31,18 @@ export const create = async (req, res) => {
     }
     let { password, confirm_password, email } = req.body;
     if (confirm_password !== password) {
-      throw PasswordNotMatch();
+      throw new PasswordNotMatchError();
     }
-    let isUserExist = await User.find({ email });
+    let isUserExist = await User.findOne({ email });
     if (isUserExist) {
-      throw new UserAlreadyExist();
+      throw new UserAlreadyExistError(isUserExist.email);
     }
-    await User.insertMany(req.body);
+
+    const newUser = new User(req.body);
+    await newUser.save();
+
     req.flash("success_msg", "Resistaration succefully");
-    return res.redirect("/user/sign_in");
+    return res.redirect("/user/sign-in");
   } catch (error) {
     logger.error(error);
     req.flash("error_msg", error.message);
@@ -59,17 +63,18 @@ export const createSession = async (req, res) => {
     let { email, password } = req.body;
     let user = await User.findOne({ email });
     if (!user) {
-      throw new UserNotFound();
+      throw new UserNotFoundError();
     }
     let isCorrectPassword = await user.comparePassword(password);
     if (!isCorrectPassword) {
-      throw new invalidCredentials();
+      throw new invalidCredentialsError();
     }
-    const token = await jwt.sign(user.id, process.env.JWT_SECRET_KEY, {
-      algorithm: process.env.JWT_ALGORITHM,
-      expiresIn: process.env.JWT_EXPIRE_TIME,
+    const token = await jwt.sign({id:user.id}, env.jwt.secret, {
+      algorithm: env.jwt.algorithm,
+      expiresIn: env.jwt.expireIN ,
     });
     req.session.token = token;
+    req.session.save()
     req.flash("success_msg", "Login succseefully");
     return res.redirect("/dashboard");
   } catch (error) {
@@ -78,3 +83,14 @@ export const createSession = async (req, res) => {
     return res.redirect("back");
   }
 };
+
+export const logOut=(req,res)=>{
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+    } else {
+      console.log('Session destroyed successfully');
+    }
+  }); 
+  res.redirect('/user/sign-in');
+}

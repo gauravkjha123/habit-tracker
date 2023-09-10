@@ -1,6 +1,7 @@
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import User from "../models/user.js";
-import logger from "../utils/customLogger.js";
+import logger from "../lib/logger/logger.js";
+import  { env } from '../env.js'
 
 export const auth = async (req, res, next) => {
   try {
@@ -11,28 +12,28 @@ export const auth = async (req, res, next) => {
     }
 
     const { token } = session;
-
-    try {
-      const userId = jwt.verify(token, process.env.JWT_SECRET_KEY, {
-        algorithms: [process.env.JWT_ALGORITHM],
+      const userId = jwt.verify(token, env.jwt.secret, {
+        algorithms: env.jwt.algorithms,
       });
 
       if (!userId) {
+        session.destroy();
+        res.clearCookie('session');
         return res.redirect("/");
       }
+      
       const user = await User.findOne({ id: userId });
 
       if (!user) {
+        session.destroy();
+        res.clearCookie('session');
         return res.redirect("/");
       }
-
       res.locals.user = user;
       next();
-    } catch (error) {
-      session.destroy();
-      res.redirect("/");
-    }
+    
   } catch (error) {
+    session.destroy()
     logger.error(error);
     res.redirect("/");
   }
@@ -41,21 +42,24 @@ export const auth = async (req, res, next) => {
 export const checkSession = async (req, res, next) => {
   try {
     const { session } = req;
-    if (session || session.token) {
+    if (session && session.token) {
       const { token } = session;
-      const userId = jwt.verify(token, process.env.JWT_SECRET_KEY, {
-        algorithms: [process.env.JWT_ALGORITHM],
+      const decode = jwt.verify(token, env.jwt.secret, {
+        algorithms: env.jwt.algorithms,
       });
-      if (!userId) {
+      if (!decode) {
         return next();;
       }
-      let user = await User.findOne({ id: userId });
-      if (user) return res.redirect("/dashboard");
+      let user = await User.findById(decode.id);
+      if (user){
+         req.user=user;
+         return res.redirect("/dashboard");
+        }
       next();
     }
     next();
   } catch (error) {
     next();
-    logger.log(error);
+    logger.error(error);
   }
 };

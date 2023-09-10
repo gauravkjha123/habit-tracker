@@ -1,19 +1,23 @@
-import  config  from './config/config.js';
 import db from './config/db.js';
 import express from 'express';
-import logger from "./utils/customLogger.js";
+import logger from "./lib/logger/logger.js";
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import session from 'express-session';
 import flash from 'connect-flash';
 import flashMiddleware from './middlwere/flash.js'
 import routes from './routes/index.js'
+import MongoStore from 'connect-mongo'
+import cookieParser from 'cookie-parser';
 import { HttpError } from 'routing-controllers';
+import  { env } from './env.js'
+import { banner } from './lib/banner.js';
+
 
 const app = express();
-
+const millisecondsInADay = 24 * 60 * 60 * 1000;
 // Define the port,
-let port =process.env.SERVER_PORT;
+let port = env.app.port;
 
 // Enable CORS middleware to allow cross-origin requests
 app.use(cors());
@@ -22,15 +26,22 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json());
 
+// CookieParser
+app.use(cookieParser())
+
 app.use(session({  
-  name: process.env.SESSION_NAME,
-  secret:  process.env.SESSION_SECRET  ,  
+  name: env.session.name,
+  secret: env.session.secret,  
   resave: false,
   saveUninitialized: false,
   cookie: { 
     secure: false,
-    maxAge: Number(process.env.SESSION_EXPIRE_TIME )
-  } 
+    maxAge: Number(env.session.expireIN)*millisecondsInADay 
+  }, 
+  store:MongoStore.create({
+    mongoUrl:env.db.mongoUrl,
+    autoRemove:'disabled'
+  })
 }));
 
 //---------Connect Flash----------//
@@ -56,6 +67,4 @@ app.use((err, req, res, next) => {
   });
   
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+app.listen(port, () =>banner(logger));
