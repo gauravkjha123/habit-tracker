@@ -32,7 +32,7 @@ export const env = {
         serviceHost: getOsEnv('EMAIL_SERVICE_HOST'),
         isSecure: toBool(getOsEnv('EMAIL_SERVICE_SECURE')),
         servicePort: getOsEnv('EMAIL_SERVICE_PORT'),
-        userName: getOsEnv('EMAIL_USER_NAME'),
+        // userName: getOsEnv('EMAIL_USER_NAME'),
         userPassword: getOsEnv('EMAIL_USER_PASSWORD'),
     },
     db: {

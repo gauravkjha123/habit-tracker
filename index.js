@@ -60,7 +60,7 @@ app.use('/',routes);
 app.use((err, req, res, next) => {
     if (err instanceof HttpError) {
       logger.error(err);
-      return res.status(500).send(err.message);
+      return res.status(500).send(err);
     }
     console.error(err.stack);
    return res.status(500).json({ error: 'Internal Server Error' });

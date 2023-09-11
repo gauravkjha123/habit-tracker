@@ -12,17 +12,17 @@ export const auth = async (req, res, next) => {
     }
 
     const { token } = session;
-      const userId = jwt.verify(token, env.jwt.secret, {
+      const decode = jwt.verify(token, env.jwt.secret, {
         algorithms: env.jwt.algorithms,
       });
 
-      if (!userId) {
+      if (!decode) {
         session.destroy();
         res.clearCookie('session');
         return res.redirect("/");
       }
       
-      const user = await User.findOne({ id: userId });
+      const user = await User.findById(decode.id);
 
       if (!user) {
         session.destroy();
@@ -52,8 +52,8 @@ export const checkSession = async (req, res, next) => {
       }
       let user = await User.findById(decode.id);
       if (user){
-         req.user=user;
-         return res.redirect("/dashboard");
+        res.locals.user = user;
+        return res.redirect("/dashboard");
         }
       next();
     }
