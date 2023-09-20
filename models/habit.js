@@ -10,6 +10,12 @@ const habitSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+  
+  favorite:{
+    type: Boolean,
+    require:true,
+    default:false
+  },
   habitDetails:[
     {
       date:{

@@ -1,0 +1,70 @@
+<link rel="stylesheet" href="/css/styles.css" type="text/css">
+
+
+<div class="habit-container text-center">
+    <h2>Start with a new habit today!</h2>
+    <div class="habit">
+        <form action="/habit" method="POST" class="habit-header mb-4">
+            <input type="text" name="name" required>
+            <button type="submit" class="add-btn"><span class="fas fa-plus"></span></button>
+        </form>
+        <i class="fas fa-check-circle" style="color: rgb(143, 233, 58);"></i>
+        -Done&emsp;&emsp;
+        <i class="fas fa-times-circle" style="color: #E53C37;"></i>
+        -Not Done&emsp;&emsp;
+        <i class="fas fa-minus-circle" style="color: gold;"></i>
+        -Unmarked&emsp;&emsp;
+        <ul class="habit-list text-center">
+            <% habits.forEach(habit => { %>
+            <li class="habit-list-item">
+                <div><div class="habit-list-item-name"><%= habit.name %></div></div>
+                <div>
+                    <a href="/habit/<%= habit.id %>/fav" class="favorite">
+                        <% if(habit.favorite) { %>
+                        <i class="fas fa-star"></i>
+                        <% } else { %>
+                        <i class="far fa-star"></i>
+                        <% } %>
+                    </a>
+                </div>
+                <div>
+                    <a href="/habit/<%= habit.id %>/delete" class="remove">
+                        <i class="far fa-trash-alt"></i>
+                    </a>
+                </div>
+                <%
+                let found = false;
+                let status = null;
+                
+                habit.habitDetails.forEach(day => {
+                    if(
+                        new Date(day?.date).setHours(0, 0, 0, 0) ===
+                        new Date().setHours(0, 0, 0, 0)
+                    ){
+                        found = true;
+                        status = day.status;
+                    }
+                %>
+                <% }) %>
+                <div class="dotw">
+                    <a href="/habit/<%= habit.id %>/status?date=<%= new Date().toLocaleString() %>" class="status2 mt-4">
+                        <% if(found && status===0){ %> 
+                        <i class="fas fa-check-circle"></i>
+                        <% } else if(found && status===1){ %>
+                        <i class="fas fa-times-circle"></i>
+                        <% } else { %>
+                        <i class="fas fa-minus-circle"></i>
+                        <% } %>
+                    </a>
+                </div>
+
+                <div class="habit-details">
+                 <a href="/habit/<%= habit.id %>" class="status2 mt-4">
+                    <i class="fas fa-arrow-right"></i>
+                 </a>
+                </div>
+            </li>
+            <% }) %>
+        </ul>
+    </div>
+</div>

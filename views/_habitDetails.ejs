@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="/css/styles.css" type="text/css">
+
+<div class="habit-container text-center">
+
+    <div class="habit">
+        <i class="fas fa-check-circle" style="color: rgb(143, 233, 58);"></i>
+        -Done&emsp;&emsp;
+        <i class="fas fa-times-circle" style="color: #E53C37;"></i>
+        -Not Done&emsp;&emsp;
+        <i class="fas fa-minus-circle" style="color: gold;"></i>
+        -Unmarked&emsp;&emsp;
+        <ul class="habit-list text-center">
+            <li class="habit-list-item">
+                <div><div class="habit-list-item-name"><%= habit.name %></div></div>
+                <div>
+                    <a href="/habit/<%= habit._id %>/fav" class="favorite">
+                        <% if(habit.favorite) { %>
+                        <i class="fas fa-star"></i>
+                        <% } else { %>
+                        <i class="far fa-star"></i>
+                        <% } %>
+                    </a>
+                </div>
+                <div>
+                    <a href="/habit/<%= habit._id %>/delete" class="remove">
+                        <i class="far fa-trash-alt"></i>
+                    </a>
+                </div>
+                <% habit.habitDetails.forEach(day => { %>
+
+                <div class="cal">
+                    <div class="day mt-0"><span><%= new Date(day.date).toDateString()                        %></span></div>
+                    <a href="/habit/<%= habit._id %>/status?date=<%= new Date(day.date).toLocaleString() %>" class="status2 mt-4">
+                        <% if(day && day.status===0){ %> 
+                        <i class="fas fa-check-circle"></i>
+                        <% } else if(day && day.status===1){ %>
+                        <i class="fas fa-times-circle"></i>
+                        <% } else { %>
+                        <i class="fas fa-minus-circle"></i>
+                        <% } %>
+                    </a>
+                </div>
+                <% }) %>
+            </li>
+        </ul>
+    </div>
+</div>

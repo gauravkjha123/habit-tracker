@@ -1,3 +1,3 @@
 export const home=(req,res,next)=>{
-   return res.render('home')
+   return res.render('_home')
 }

@@ -1,32 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <form action="/user/sign-up" style="border:1px solid #ccc" method="post">
-    <div class="container">
-      <h1>Sign Up</h1>
-      <p>Please fill in this form to create an account.</p>
-      <hr>
-      <label for="name"><b>name</b></label>
-      <input type="text" placeholder="Enter Name" name="name" required>
 
-      <label for="email"><b>Email</b></label>
-      <input type="text" placeholder="Enter Email" name="email" required>
-  
-      <label for="password"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="password" required>
-  
-      <label for="confirm_password"><b>Repeat Password</b></label>
-      <input type="password" placeholder="Repeat Password" name="confirm_password" required>
-    <br>
-      <div class="clearfix">
-        <button type="submit" class="signupbtn">Sign Up</button>
+<main>
+  <div class="card text-center" style="width: 25rem; margin: auto;">
+      <div class="card-body">
+          <h5 class="card-title">Sign up</h5>
+          <p class="card-text">
+          <form action="/user/sign-up" method='post'> 
+              <input type="text" class="form-control mb-3" name="name" placeholder="name" required>
+              <input type="email" class="form-control mb-3" name="email" placeholder="email" required>
+              <input type="password" class="form-control mb-3" name="password" placeholder="password" required>
+              <input type="password" class="form-control mb-3" name="confirm_password" placeholder="Confirm password"
+                  required>
+
+              <button type="submit" class="btn btn-primary mb-3">signup</button>
+          </form>
+          </p>
       </div>
-    </div>
-  </form>
-</body>
-</html>
+  </div>
+
+</main>

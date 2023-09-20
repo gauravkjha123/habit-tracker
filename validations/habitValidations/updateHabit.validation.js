@@ -12,6 +12,10 @@ const updateHabitValidation = (data) => {
             "any.required":
             "Email is required. Please provide an email address",
           }),
+        favorite: joi.boolean()
+        .messages({
+          'boolean.base': 'The "isReviewed" field must be a boolean.',
+        }),
       })
       .unknown(false);
 

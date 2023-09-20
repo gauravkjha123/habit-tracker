@@ -9,6 +9,8 @@ import flashMiddleware from './middlwere/flash.js'
 import routes from './routes/index.js'
 import MongoStore from 'connect-mongo'
 import cookieParser from 'cookie-parser';
+import expressLayout from 'express-ejs-layouts';
+import path from 'path'
 import { HttpError } from 'routing-controllers';
 import  { env } from './env.js'
 import { banner } from './lib/banner.js';
@@ -51,6 +53,14 @@ app.use(flashMiddleware)
 // set up the view engine
 app.set('view engine', 'ejs');
 app.set('views', './views');
+
+app.use(expressLayout);
+// extract style and scripts from sub pages into the layout
+app.set('layout extractStyles', true);
+app.set('layout extractScripts', true);
+
+// public | static file 
+app.use(express.static(path.join(process.cwd(), 'public'))); 
 
 //---------Web API----------//
 app.use('/',routes);

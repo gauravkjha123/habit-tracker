@@ -76,7 +76,7 @@ export const createSession = async (req, res) => {
     req.session.token = token;
     req.session.save()
     req.flash("success_msg", "Login succseefully");
-    return res.redirect("/dashboard");
+    return res.redirect("/habit");
   } catch (error) {
     logger.error(error);
     req.flash("error_msg", error.message);

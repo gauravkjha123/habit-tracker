@@ -1,0 +1,213 @@
+* {
+    margin    : 0;
+    padding   : 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #e27442;
+    overflow-y: auto;
+}
+
+.habit-container {
+    color         : white;
+    position      : absolute;
+    top           : 55%;
+    left          : 50%;
+    padding       : 20px;
+    transform     : translate(-50%, -50%);
+    background    : gray;
+    border-radius : 20px;
+    display       : flex;
+    height        : 70vh;
+    flex-direction: column;
+    align-items   : center;
+    overflow: hidden;
+}
+
+.habit-container::-webkit-scrollbar {
+    display: none;
+  }
+.habit {
+    width: 900px;
+}
+
+.habit-container h2 {
+    padding    : 10px;
+    font-family: 'Candal', sans-serif;
+    font-size  : 2em;
+}
+
+.habit-header input {
+    width        : 54%;
+    border       : none;
+    border-radius: 5px;
+    height       : 40px;
+    font-family  : 'Candal', sans-serif;
+}
+
+.habit-header .add-btn {
+    color           : white;
+    border          : none;
+    border-radius   : 50%;
+    cursor          : pointer;
+    padding         : 8px 13px;
+    font-family     : 'Candal', sans-serif;
+    background-color: rgb(51, 212, 100);
+}
+
+.habit-container ul {
+    height: 50vh;
+    list-style: none;
+}
+
+.habit-list {
+    overflow-y    : scroll;
+}
+
+.habit-list::-webkit-scrollbar{
+    display: none
+}
+.habit-list-item {
+    padding       : 10px;
+    border        : none;
+    margin: 5px;
+    border-radius : 5px;
+    font-family   : 'Candal', sans-serif;
+    background    : rgba(0, 0, 0, 0.33);
+    display       : flex;
+    flex-direction: row;
+    align-items: center;
+    box-shadow: 5px,5px black;
+    justify-content: space-evenly;
+}
+
+.habit-list-item form {
+    width  : 100%;
+    display: flex;
+}
+
+.habit-list-item input {
+    flex-grow    : 2;
+    margin-right : 20px;
+    border       : none;
+    border-radius: 5px;
+    font-family  : 'Candal', sans-serif;
+}
+
+.habit-list-item button {
+    color           : white;
+    border          : none;
+    border-radius   : 5px;
+    cursor          : pointer;
+    padding         : 5px;
+    font-family     : 'Candal', sans-serif;
+    background-color: rgb(51, 212, 100);
+}
+
+.habit-list-item .cancel {
+    color           : white;
+    text-decoration : none;
+    border          : none;
+    border-radius   : 5px;
+    cursor          : pointer;
+    padding         : 5px;
+    font-family     : 'Candal', sans-serif;
+    background-color: #E53C37;
+    margin-left     : 5px;
+}
+
+.habit-list-item .favorite {
+    color          : white;
+    text-decoration: none;
+    cursor         : pointer;
+    font-family    : 'Candal', sans-serif;
+    color          : gold;
+    font-size      : 18px;
+}
+
+.habit-list-item> div {
+    width: 30%;
+}
+
+.habit-list-item .edit {
+    color          : rgb(143, 233, 58);
+    margin-right   : 10px;
+    cursor         : pointer;
+    text-decoration: none;
+}
+
+.habit-list-item .status {
+    margin-top: 2.5px;
+}
+
+.habit-list-item .remove {
+    color          : #E53C37;
+    margin-right   : 5px;
+    cursor         : pointer;
+    text-decoration: none;
+    font-size      : 20px;
+}
+
+.status .fa-check-circle {
+    color: rgb(143, 233, 58);
+}
+
+.status .fa-times-circle {
+    color: #E53C37;
+}
+
+.status .fa-minus-circle {
+    color: gold;
+}
+
+.status2 .fa-check-circle {
+    color    : rgb(143, 233, 58);
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+.status2 .fa-times-circle {
+    color    : #E53C37;
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+.status2 .fa-minus-circle {
+    color    : gold;
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+.dotw {
+    display         : inline-block;
+    margin-bottom   : 12px;
+    position        : relative;
+    text-align      : center;
+    font-family     : Oswald, sans-serif;
+    font-size       : 10pt;
+    overflow        : hidden;
+    user-select     : none;
+}
+
+.day {
+    width           : 100%;
+    background-color: #E54B4B;
+}
+
+.habit-details>a>i{
+    font-size: 18px;
+    color: white;
+}
+.cal {
+    display         : inline-block;
+    margin-bottom   : 12px;
+    position        : relative;
+    text-align      : center;
+    background-color: white;
+    margin: 2px;
+    font-family     : Oswald, sans-serif;
+    font-size       : 10pt;
+    overflow        : hidden;
+    user-select     : none;
+}

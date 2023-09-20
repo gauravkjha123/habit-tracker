@@ -53,7 +53,7 @@ export const checkSession = async (req, res, next) => {
       let user = await User.findById(decode.id);
       if (user){
         res.locals.user = user;
-        return res.redirect("/dashboard");
+        return res.redirect("/habit");
         }
       next();
     }
