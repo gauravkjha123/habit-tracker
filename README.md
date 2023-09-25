@@ -26,3 +26,7 @@
 `npm start`
 
 #### The Server should now be running at http://localhost:3000/
+
+
+#### Deployment Link:
+ - Link : http://13.232.119.31/
